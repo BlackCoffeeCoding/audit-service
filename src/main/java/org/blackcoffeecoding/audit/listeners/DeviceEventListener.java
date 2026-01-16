@@ -69,7 +69,6 @@ public class DeviceEventListener {
 
     @RabbitListener(
             bindings = @QueueBinding(
-                    // ВАЖНО: Уникальное имя очереди для этого сервиса
                     value = @Queue(name = "audit-analytics-queue", durable = "true"),
                     exchange = @Exchange(name = "analytics-fanout", type = "fanout")
             )
