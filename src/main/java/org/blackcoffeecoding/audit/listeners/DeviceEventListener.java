@@ -66,4 +66,16 @@ public class DeviceEventListener {
             channel.basicNack(deliveryTag, false, false);
         }
     }
+
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    // ВАЖНО: Уникальное имя очереди для этого сервиса
+                    value = @Queue(name = "audit-analytics-queue", durable = "true"),
+                    exchange = @Exchange(name = "analytics-fanout", type = "fanout")
+            )
+    )
+    public void handleDeviceRated(org.blackcoffeecoding.device.events.DeviceRatedEvent event) {
+        log.info("FANOUT: Получен рейтинг устройства ID {}: Score={}, Verdict={}",
+                event.deviceId(), event.score(), event.verdict());
+    }
 }
